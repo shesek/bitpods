@@ -58,6 +58,13 @@ qtwayland5 \
 systemtap \
 systemtap-sdt-dev
 
+# Disable the automatic gp-vncsession startup script (it is started
+# manually in the command stage after /workspace/.pyenv is patched)
+RUN if [ -f /usr/bin/gp-vncsession ]; then \
+      cp /usr/bin/gp-vncsession /usr/bin/gp-vncsession-start \
+      && echo '#!/bin/true' > /usr/bin/gp-vncsession; \
+    fi
+
 USER gitpod
 
 RUN ([ -d /home/linuxbrew ] || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)")
