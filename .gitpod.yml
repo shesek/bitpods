@@ -6,7 +6,7 @@ workspaceLocation: bitpod/bitcoin.code-workspace
 
 tasks:
   - name: bitcoind
-    before: . gitpod-before.sh
+    before: . /workspace/bitpod/gitpod-before.sh
     init: |
       { . gitpod-init.sh; } 2>&1 | tee -a /workspace/init.log
       gp sync-done init
@@ -29,23 +29,22 @@ tasks:
       docker build -t btc-rpc-explorer .
     command: |
       echo btc-rpc-explorer ready, waiting for bitcoind...
-      gp sync-await bitcoin-rpc &&
+      gp sync-await bitcoin-setup &&
       docker run -it --rm --name explorer -p 3002:3002 \
         --add-host host.docker.internal:host-gateway \
         -e BTCEXP_HOST -e BTCEXP_BITCOIND_URI -e BTCEXP_BITCOIND_COOKIE \
         -v ~/.bitcoin/regtest/.cookie:/etc/bitcoin.cookie \
         btc-rpc-explorer
 
-  - name: bitcoin-cli
+  - name: cli
     init: echo Waiting for bitcoind to build... && gp sync-await init
     command: |
       cd /workspace/bitcoin
       echo Waiting for bitcoind to start...
-      gp await-port 18443
+      gp await-port 18443 &&
       bitcoin-cli -rpcwait getnetworkinfo | jq -r .subversion &&
-      gp sync-done bitcoin-rpc &&
-      bitcoin-cli loadwallet default || bitcoin-cli createwallet default &&
-      bitcoin-cli generatetoaddress 101 $(bitcoin-cli getnewaddress) > /dev/null &&
+      . /workspace/bitpod/bitcoin-setup.sh &&
+      gp sync-done bitcoin-setup &&
       bitcoin-cli getblockchaininfo
 
 ports:

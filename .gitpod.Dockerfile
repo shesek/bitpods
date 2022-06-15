@@ -66,6 +66,8 @@ ENV PATH="/workspace/bin:/workspace/.pyenv:/workspace/.pyenv/bin:/workspace/.pye
 ENV MANPATH="${MANPATH}:/home/linuxbrew/.linuxbrew/share/man"
 ENV INFOPATH="{$INFOPATH}:/home/linuxbrew/.linuxbrew/share/info"
 ENV HOMEBREW_NO_AUTO_UPDATE=1
+ARG WITH_GUI
+ENV WITH_GUI=$WITH_GUI
 
 RUN    sudo apt remove -y cmake \
     && brew install cmake       \
