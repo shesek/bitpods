@@ -1,0 +1,17 @@
+name: Update Docker image
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          file: .gitpod.Dockerfile
+          push: true
+          tags: shesek/bitpod:latest
