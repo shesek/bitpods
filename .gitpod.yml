@@ -18,7 +18,6 @@ tasks:
       echo '🟢 starting bitcoin...'
       bitcoind
 
-  # XXX run in the background w/o a terminal?
   - name: btc-rpc-explorer
     env:
       BTCEXP_HOST: 0.0.0.0
@@ -33,11 +32,13 @@ tasks:
     command: |
       echo btc-rpc-explorer ready, waiting for bitcoind...
       gp sync-await bitcoin-setup &&
-      docker run -it --rm --name explorer -p 3002:3002 \
+      docker run -d --restart unless-stopped \
+        --name explorer -p 3002:3002 \
         --add-host host.docker.internal:host-gateway \
         -e BTCEXP_HOST -e BTCEXP_BITCOIND_URI -e BTCEXP_BITCOIND_COOKIE \
         -v ~/.bitcoin/regtest/.cookie:/etc/bitcoin.cookie \
-        btc-rpc-explorer
+        btc-rpc-explorer &&
+      exit 0 # so that the terminal is closed
 
   - name: cli
     init: echo Waiting for bitcoind to build... && gp sync-await init
