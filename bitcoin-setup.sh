@@ -1,5 +1,5 @@
 #! -- expected to be 'source'd
-set -o pipefail
+set -eo pipefail
 
 echo '🟢 setting up default bitcoin core wallet'
 bitcoin-cli loadwallet default 2> /dev/null || bitcoin-cli createwallet default &&

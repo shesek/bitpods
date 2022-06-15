@@ -77,6 +77,9 @@ ENV HOMEBREW_NO_AUTO_UPDATE=1
 ARG WITH_GUI
 ENV WITH_GUI=$WITH_GUI
 
+# Use a smaller screen resolution for VNC so that bitcoin-qt takes up more of the available space
+ENV TIGERVNC_GEOMETRY=1280x800
+
 RUN    sudo apt remove -y cmake \
     && brew install cmake       \
     && brew install ccache      \
