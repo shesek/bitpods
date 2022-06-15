@@ -32,11 +32,9 @@ echo '🟢 installing python '   $(cat /workspace/bitcoin/.python-version)
 pyenv install -s -v $(cat /workspace/bitcoin/.python-version)
 pyenv versions
 
-echo '🟢 setting up git repo'
+echo '🟢 setting up bitcoin git repo'
 (cd /workspace/bitcoin &&
-  git config --local remote.upstream.url https://github.com/bitcoin/bitcoin.git &&
-  git config --local remote.upstream.fetch +refs/heads/*:refs/remotes/upstream/* &&
-  git config --add --local remote.upstream.fetch +refs/pull/*/head:refs/remotes/upstream/pr/*)
+  git remote add upstream https://github.com/bitcoin/bitcoin)
 (cd /workspace/bitpod/.git/modules/bitcoin &&
   rm info/exclude && ln -s /workspace/bitpod/.gitignore.global info/exclude)
 
