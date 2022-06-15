@@ -1,16 +1,5 @@
 #! -- expected to be 'source'd
 
-# Use the ~/.pyenv directory created during the docker build,
-# but move it to /workspace so that changes are persisted.
-rm -rf /workspace/.pyenv
-mv /home/gitpod/.pyenv /workspace
-
-# Bitcoin Core's Python version will typically already be installed by the Dockerfile, but it is
-# re-installed jere in case .python-version uses a different version (the Dockerfile hardcodes v3.6.12)
-echo '🟢 installing python '   $(cat /workspace/bitcoin/.python-version)
-pyenv install -s -v $(cat /workspace/bitcoin/.python-version)
-pyenv versions
-
 echo '🟢 setting up symlinks'
 mkdir -p /workspace/{bin,datadir}
 
@@ -30,6 +19,17 @@ fi
 ln -s /workspace/bitpod/bitcoin-build.sh /workspace/bin/bitcoin-build
 ln -s $(which llvm-cov-15) /workspace/bin/llvm-cov
 #hash -r
+
+# Use the ~/.pyenv directory created during the docker build,
+# but move it to /workspace so that changes are persisted.
+rm -rf /workspace/.pyenv
+mv /home/gitpod/.pyenv /workspace
+
+# Bitcoin Core's Python version will typically already be installed by the Dockerfile, but it is
+# re-installed jere in case .python-version uses a different version (the Dockerfile hardcodes v3.6.12)
+echo '🟢 installing python '   $(cat /workspace/bitcoin/.python-version)
+pyenv install -s -v $(cat /workspace/bitcoin/.python-version)
+pyenv versions
 
 echo '🟢 setting up git repo'
 (cd /workspace/bitcoin &&
