@@ -27,6 +27,7 @@ if [ -n "$GUI" ]; then
   ln -s /workspace/bitcoin/src/qt/bitcoin-qt /workspace/bin/
 fi
 
+ln -s /workspace/bitpod/bitcoin-build.sh /workspace/bin/bitcoin-build
 ln -s $(which llvm-cov-15) /workspace/bin/llvm-cov
 #hash -r
 
