@@ -88,15 +88,8 @@ RUN    sudo apt remove -y cmake \
     && sudo rm -rf /var/cache/debconf/* /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install the Python version used by Bitcoin Core
-# This is the version that Core uses at the time of writing. If it changes, the new
-# version (indicated via Core's .python-version file) will be installed too during
-# the Gitpod init stage. Installing early here is done to achieve faster init times.
-RUN pyenv install -s -v 3.6.12
-
-# Python is initially installed to /home/gitpod/.pyenv because /workspace gets reset by Gitpod before
-# the prebuild stage, but the files are moved to /workspace/.pyenv in the Gitpod init stage so that
-# additional Python versions installed in the workspace gets persisted.
-ENV PYENV_ROOT="/workspace/.pyenv"
+COPY bitcoin/.python-version /tmp/bitcoin-python-version
+RUN pyenv install -v -s $(cat /tmp/bitcoin-python-version)
 
 # Leaving out precise BDB version - must build with --with-incompatible-bdb or --without-bdb
 # Leaving out lldb-15 & python3-lldb-15 - suddenly including lldb-15 causes clang/clang++ to segfault
