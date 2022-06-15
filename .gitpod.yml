@@ -1,0 +1,78 @@
+image:
+  file: .gitpod.Dockerfile
+
+checkoutLocation: bitpod
+workspaceLocation: bitpod/bitcoin.code-workspace
+
+tasks:
+  - name: bitcoind
+    before: . gitpod-before.sh
+    init: |
+      { . gitpod-init.sh; } 2>&1 | tee -a /workspace/init.log
+      gp sync-done init
+    command: |
+      echo '🟢 starting bitcoind...'
+      bitcoind
+
+  # XXX run in the background w/o a terminal?
+  - name: btc-rpc-explorer
+    env:
+      BTCEXP_HOST: 0.0.0.0
+      BTCEXP_BASIC_AUTH_PASSWORD: 1234
+      BTCEXP_BITCOIND_URI: http://host.docker.internal:18443
+      BTCEXP_BITCOIND_COOKIE: /etc/bitcoin.cookie
+    init: |
+      cd btc-rpc-explorer
+      rm .git
+      sed -i 's/node:14/node:16/g' Dockerfile
+      docker build -t btc-rpc-explorer .
+    command: |
+      echo btc-rpc-explorer ready, waiting for bitcoind...
+      gp sync-await bitcoin-rpc &&
+      docker run -it --rm --name explorer -p 3002:3002 \
+        --add-host host.docker.internal:host-gateway \
+        -e BTCEXP_HOST -e BTCEXP_BITCOIND_URI -e BTCEXP_BITCOIND_COOKIE \
+        -v ~/.bitcoin/regtest/.cookie:/etc/bitcoin.cookie \
+        btc-rpc-explorer
+
+  - name: bitcoin-cli
+    init: echo Waiting for bitcoind to build... && gp sync-await init
+    command: |
+      cd /workspace/bitcoin
+      echo Waiting for bitcoind to start...
+      bitcoin-cli -rpcwait getnetworkinfo | jq -r .subversion &&
+      gp sync-done bitcoin-rpc &&
+      bitcoin-cli loadwallet default || bitcoin-cli createwallet default &&
+      bitcoin-cli generatetoaddress 101 $(bitcoin-cli getnewaddress) > /dev/null &&
+      bitcoin-cli getblockchaininfo
+
+ports:
+  # btc-rpc-explorer
+  - port: 3002
+    onOpen: open-preview
+  # VNC
+  - port: 6080
+    onOpen: open-preview
+  - port: 5900
+    onOpen: ignore
+
+github:
+  prebuilds:
+    master: true
+    branches: true
+    pullRequests: false
+    pullRequestsFromForks: false
+
+vscode:
+  extensions:
+    - eamodio.gitlens
+    - editorconfig.editorconfig
+    - gera2ld.markmap-vscode
+    - gitpod.gitpod-remote-ssh
+    - ms-vscode.cpptools
+    - pdconsec.vscode-print
+    - redhat.vscode-yaml
+#   - ritwickdey.liveserver
+    - shd101wyy.markdown-preview-enhanced
+    - yzhang.markdown-all-in-one
+#   - llvm-vs-code-extensions.vscode-clangd

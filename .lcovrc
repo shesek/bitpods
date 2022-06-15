@@ -1,0 +1,9 @@
+genhtml_highlight=0  # ??
+genhtml_legend=1
+genhtml_sort=1       # sorted overview pages
+genhtml_function_coverage=1
+genhtml_branch_coverage=1
+genhtml_charset=UTF-8
+genhtml_demangle_cpp=1
+lcov_function_coverage=1
+lcov_branch_coverage=1

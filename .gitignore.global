@@ -1,0 +1,8 @@
+# "global" `.gitignore` to supplement the one in the bitcoin repo
+
+/bin/
+/bitpod
+.vscode/
+compile_commands.json
+.btcdeb_history
+

@@ -1,0 +1,9 @@
+[submodule "bitcoin"]
+	path = bitcoin
+	url = https://github.com/bitcoin/bitcoin
+[submodule "btcdeb"]
+	path = btcdeb
+	url = https://github.com/bitcoin-core/btcdeb
+[submodule "btc-rpc-explorer"]
+	path = btc-rpc-explorer
+	url = https://github.com/janoside/btc-rpc-explorer
