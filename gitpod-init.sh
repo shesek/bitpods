@@ -1,4 +1,5 @@
 #! -- expected to be 'source'd
+set -eo pipefail
 
 echo '🟢 setting up symlinks'
 mkdir -p /workspace/{bin,datadir}
