@@ -3,6 +3,6 @@
 /bin/
 /bitpod
 .vscode/
-compile_commands.json
+compile_commands*.json
 .btcdeb_history
-
+*.o.tmp
