@@ -1,5 +1,6 @@
-image:
-  file: .gitpod.Dockerfile
+image: ghcr.io/shesek/bitpod:master
+# To use the local Dockerfile:
+#   file: .gitpod.Dockerfile
 
 checkoutLocation: bitpod
 workspaceLocation: bitpod/bitcoin.code-workspace
