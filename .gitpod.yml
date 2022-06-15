@@ -6,18 +6,6 @@ checkoutLocation: bitpod
 workspaceLocation: bitpod/bitcoin.code-workspace
 
 tasks:
-  - name: bitcoind
-    before: . /workspace/bitpod/gitpod-before.sh
-    init: |
-      { . gitpod-init.sh; } 2>&1 | tee -a /workspace/init.log
-      gp sync-done init
-    command: |
-      # The VNC server must be started after the init script patches .pyenv
-      gp-vncsession-start
-      cd /workspace/bitcoin
-      echo '🟢 starting bitcoin...'
-      bitcoind
-
   - name: btc-rpc-explorer
     env:
       BTCEXP_HOST: 0.0.0.0
@@ -40,7 +28,20 @@ tasks:
         btc-rpc-explorer &&
       exit 0 # so that the terminal is closed
 
-  - name: cli
+  - name: bitcoin core
+    before: . /workspace/bitpod/gitpod-before.sh
+    init: |
+      { . gitpod-init.sh; } 2>&1 | tee -a /workspace/init.log
+      gp sync-done init
+    command: |
+      # The VNC server must be started after the init script patches .pyenv
+      gp-vncsession-start
+      cd /workspace/bitcoin
+      echo '🟢 starting bitcoin...'
+      bitcoind
+
+  - name: bitcoin cli
+    openMode: split-right
     init: echo Waiting for bitcoind to build... && gp sync-await init
     command: |
       cd /workspace/bitcoin
