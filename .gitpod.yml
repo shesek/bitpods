@@ -1,4 +1,4 @@
-image: ghcr.io/shesek/bitpod:master
+image: ghcr.io/shesek/bitpod:latest
 # To use the local Dockerfile:
 #   file: .gitpod.Dockerfile
 
@@ -13,7 +13,7 @@ tasks:
       gp sync-done init
     command: |
       cd /workspace/bitcoin
-      echo '🟢 starting bitcoind...'
+      echo '🟢 starting bitcoin...'
       bitcoind
 
   # XXX run in the background w/o a terminal?

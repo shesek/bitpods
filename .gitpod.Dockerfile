@@ -1,4 +1,5 @@
-FROM gitpod/workspace-python:latest
+ARG BASE_IMAGE=gitpod/workspace-python
+FROM $BASE_IMAGE
 
 SHELL ["/bin/bash", "-c"]
 

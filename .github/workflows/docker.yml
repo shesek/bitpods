@@ -7,6 +7,12 @@ on:
 jobs:
   docker:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - base_image: gitpod/workspace-python
+          - base_image: gitpod/workspace-full-vnc
+            with_gui: 1
     steps:
       - name: Log in to the Github Docker registry
         uses: docker/login-action@v2
@@ -20,11 +26,22 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ghcr.io/shesek/bitpod
+          tags: |
+            # publish the master branch as 'latest' or 'gui'
+            type=raw,value=${{ matrix.with_gui && 'gui' || 'latest' }},enable={{is_default_branch}}
+          flavor: |
+            # add 'gui-<branch>' prefix (for non-master only)
+            ${{ matrix.with_gui && github.ref != format('refs/heads/{0}', 'master') && 'prefix=gui-' || '' }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
           file: .gitpod.Dockerfile
           push: true
+
+          build-args: |
+            BASE_IMAGE=${{ matrix.base_image }}
+            WITH_GUI=${{ matrix.with_gui }}
+
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

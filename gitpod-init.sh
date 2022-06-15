@@ -13,7 +13,7 @@ ln -s /workspace/bitpod/{bitcoin,btcdeb,btc-rpc-explorer} /workspace
 ln -s /workspace/bitpod /workspace/bitcoin/.bitpod
 
 ln -s /workspace/bitcoin/src/bitcoin{d,-cli,-tx,-util,-wallet} /workspace/bin/
-if [ -n "$GUI" ]; then
+if [ -n "$WITH_GUI" ]; then
   ln -s /workspace/bitcoin/src/qt/bitcoin-qt /workspace/bin/
 fi
 
