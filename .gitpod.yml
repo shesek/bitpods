@@ -40,13 +40,13 @@ tasks:
       echo '🟢 starting bitcoin...'
       bitcoind
 
-  - name: bitcoin cli
+  - name: node rpc
     openMode: split-right
     init: echo Waiting for bitcoind to build... && gp sync-await init
     command: |
       cd /workspace/bitcoin
       echo Waiting for bitcoind to start...
-      gp await-port 18443 &&
+      gp ports await 18443 &&
       bitcoin-cli -rpcwait getnetworkinfo | jq -r .subversion &&
       . /workspace/bitpod/bitcoin-setup.sh &&
       gp sync-done bitcoin-setup &&
