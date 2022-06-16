@@ -37,6 +37,8 @@ USE_COVERAGE=$([ -n "$WITH_COVERAGE" ] && echo "$OPTIONS_FOR_COVERAGE" || echo)
 # Compile with bear when using clang
 BEAR=$([ $COMPILER_IS = clang ] && echo "bear --" || echo)
 
+ccache --max-size 8GB
+
 # Build
 echo '🟢 building bitcoin'
 pushd /workspace/bitcoin

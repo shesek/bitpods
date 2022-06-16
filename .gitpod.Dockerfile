@@ -64,7 +64,10 @@ RUN sed -i '/gp-vncsession/d' $HOME/.bashrc
 
 USER gitpod
 
-RUN ([ -d /home/linuxbrew ] || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)")
+RUN  ([ -d /home/linuxbrew ] || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)") \
+  && ln -s /workspace/datadir ~/.bitcoin \
+  && ln -s /workspace/bitpod/.bashrc ~/.bashrc.d/bitpod \
+  && ln -s /workspace/bitpod/.lcovrc ~/.lcovrc
 
 ENV CCACHE_DIR="/workspace/.ccache"
 ENV PATH="/workspace/bin:/workspace/.pyenv:/workspace/.pyenv/bin:/workspace/.pyenv/shims:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin/:${PATH}"
