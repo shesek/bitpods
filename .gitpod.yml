@@ -13,20 +13,21 @@ tasks:
       BTCEXP_BITCOIND_URI: http://host.docker.internal:18443
       BTCEXP_BITCOIND_COOKIE: /etc/bitcoin.cookie
     init: |
-      cd btc-rpc-explorer
-      rm .git
-      sed -i 's/node:14/node:16/g' Dockerfile
+      cd btc-rpc-explorer &&
+      rm .git &&
+      sed -i 's/node:14/node:16/g' Dockerfile &&
       docker build -t btc-rpc-explorer .
     command: |
-      echo btc-rpc-explorer ready, waiting for bitcoind...
+      echo btc-rpc-explorer ready, waiting for bitcoind... &&
       gp sync-await bitcoin-setup &&
-      docker run -d --restart unless-stopped \
-        --name explorer -p 3002:3002 \
-        --add-host host.docker.internal:host-gateway \
-        -e BTCEXP_HOST -e BTCEXP_BITCOIND_URI -e BTCEXP_BITCOIND_COOKIE \
-        -v ~/.bitcoin/regtest/.cookie:/etc/bitcoin.cookie \
-        btc-rpc-explorer &&
-      exit 0 # so that the terminal is closed
+      echo Running btc-rpc-explorer on $(gp url 3002) &&
+      (docker start explorer 2> /dev/null \
+      || docker run -d --name explorer --restart on-failure \
+          -p 3002:3002 --add-host host.docker.internal:host-gateway \
+          -e BTCEXP_HOST -e BTCEXP_BITCOIND_URI -e BTCEXP_BITCOIND_COOKIE \
+          -v ~/.bitcoin/regtest/.cookie:/etc/bitcoin.cookie \
+          btc-rpc-explorer) &&
+      exit 0 # close the terminal window
 
   - name: bitcoin core
     before: . /workspace/bitpod/gitpod-before.sh
