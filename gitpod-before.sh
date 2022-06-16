@@ -1,5 +1,4 @@
 #! -- expected to be 'source'd
-set -o pipefail
 
 ccache --max-size 8GB
 

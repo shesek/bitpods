@@ -1,5 +1,6 @@
 #! -- expected to be 'source'd
-set -eo pipefail
+
+(set -eo pipefail
 
 echo '🟢 running gitpod-init.sh'
 
@@ -34,3 +35,5 @@ pyenv versions
 
 [ -n "$NO_BUILD" ] || bitcoin-build
 [ -z "$BTCDEB" ] || btcdeb-build
+
+)
