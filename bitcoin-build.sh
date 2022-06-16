@@ -41,7 +41,7 @@ ccache --max-size 8GB
 
 # Build
 echo '🟢 building bitcoin'
-pushd /workspace/bitcoin
+cd /workspace/bitcoin
 
 ./autogen.sh
 
@@ -63,5 +63,3 @@ if [ -n "$WITH_COVERAGE" ]; then
   cleancov
   make -j$(nproc) test_bitcoin.coverage/.dirstamp
 fi
-
-popd
