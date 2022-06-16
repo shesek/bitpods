@@ -60,10 +60,7 @@ systemtap-sdt-dev
 
 # Disable the automatic gp-vncsession startup script (it is started
 # manually in the command stage after /workspace/.pyenv is patched)
-RUN if [ -f /usr/bin/gp-vncsession ]; then \
-      cp /usr/bin/gp-vncsession /usr/bin/gp-vncsession-start \
-      && echo '#!/bin/true' > /usr/bin/gp-vncsession; \
-    fi
+RUN sed -i '/gp-vncsession/d' $HOME/.bashrc
 
 USER gitpod
 

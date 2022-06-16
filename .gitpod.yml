@@ -35,8 +35,7 @@ tasks:
       { . gitpod-init.sh; } 2>&1 | tee -a /workspace/init.log
       gp sync-done init
     command: |
-      # The VNC server must be started after the init script patches .pyenv
-      gp-vncsession-start
+      [ -n "$WITH_GUI" ] && gp-vncsession
       cd /workspace/bitcoin
       echo '🟢 starting bitcoin...'
       bitcoind
