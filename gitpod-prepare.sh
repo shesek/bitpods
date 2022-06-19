@@ -18,12 +18,17 @@ if [ -n "$WITH_GUI" ]; then
   sed -i -r 's!^( *)bitcoind$!\1bitcoin-qt!' .gitpod.yml
 fi
 
+# Use a local --reference repo to speed up the submodule update
+localref() {
+  [ -n "$PODS_BASEGIT" ] && echo "--reference $PODS_BASEGIT/$1"
+}
+
 # Update the bitcoin and btcpdeb submodules
 
 git submodule set-url bitcoin "$BITCOIN_REPO_URL"
 git submodule set-branch --branch "$BITCOIN_REPO_BRANCH" bitcoin
-git submodule update --init --remote --depth 1 bitcoin
+git submodule update --init --remote --depth 1 $(localref bitcoin) bitcoin
 
 git submodule set-url btcdeb "$BTCDEB_REPO_URL"
 git submodule set-branch --branch "$BTCDEB_REPO_BRANCH" btcdeb
-git submodule update --init --remote --depth 1 btcdeb
+git submodule update --init --remote --depth 1 $(localref btcdeb) btcdeb
