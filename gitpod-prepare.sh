@@ -27,8 +27,8 @@ localref() {
 
 git submodule set-url bitcoin "$BITCOIN_REPO_URL"
 git submodule set-branch --branch "$BITCOIN_REPO_BRANCH" bitcoin
-git submodule update --init --remote --depth 1 $(localref bitcoin) bitcoin
+git submodule update --init --remote $(localref bitcoin) bitcoin
 
 git submodule set-url btcdeb "$BTCDEB_REPO_URL"
 git submodule set-branch --branch "$BTCDEB_REPO_BRANCH" btcdeb
-git submodule update --init --remote --depth 1 $(localref btcdeb) btcdeb
+git submodule update --init --remote $(localref btcdeb) btcdeb
