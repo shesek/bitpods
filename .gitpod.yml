@@ -51,6 +51,14 @@ tasks:
       gp sync-done bitcoin-setup &&
       bitcoin-cli getblockchaininfo
 
+  - name: tests
+    before: |
+      [[ -v TEST || -v CHECK ]] || exit 0
+    init: echo Waiting for bitcoind to build... && gp sync-await init
+    command: |
+      if [[ -v CHECK ]]; then bitcoin-check $CHECK; fi &&
+      if [[ -v TEST ]]; then bitcoin-test $(cd /workspace/bitcoin/test/functional && echo $TEST); fi
+
 ports:
   # btc-rpc-explorer
   - port: 3002

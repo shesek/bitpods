@@ -59,12 +59,7 @@ cd /workspace/bitcoin
 make clean
 $BEAR make -j$(nproc)
 
-if [ -z "$NO_CHECK" ]; then
-  echo '🟢 checking bitcoin'
-  make -j$(nproc) check
-fi
-
-if [ -n "$WITH_COVERAGE" ]; then
-  cleancov
-  make -j$(nproc) test_bitcoin.coverage/.dirstamp
-fi
+#if [ -n "$WITH_COVERAGE" ]; then
+  #cleancov
+  #make -j$(nproc) test_bitcoin.coverage/.dirstamp
+#fi

@@ -4,10 +4,6 @@
 
 alias btc=bitcoin-cli
 
-runcheck() {
-  (cd /workspace/bitcoin && make -j$(nproc) check "$@")
-}
+alias bitcoin-check="make -C /workspace/bitcoin -j$(nproc) check"
 
-runtest() {
-  (cd /workspace/bitcoin && test/functional/test_runner.py "$@")
-}
+alias bitcoin-test="/workspace/bitcoin/test/functional/test_runner.py"
