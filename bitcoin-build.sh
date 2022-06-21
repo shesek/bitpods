@@ -20,9 +20,14 @@ OPTIONS_FOR_COVERAGE="--enable-lcov --enable-lcov-branch-coverage"
 # Custom user options
 USE_ADDITIONAL_OPTIONS=
 
-# Uses clang by default, unless GCC is set
-COMPILER_IS=$([ -n "$GCC" ] && echo gcc || echo clang)
-USE_COMPILER=$([ $COMPILER_IS = clang ] && echo "$OPTIONS_FOR_CLANG" || echo "$OPTIONS_FOR_GCC")
+# Uses clang by default
+case "$COMPILER" in
+  "") COMPILER=clang ;;
+  clang | gcc) ;;
+  *) echo >&2 "Invalid compiler $COMPILER'"; exit 1 ;;
+esac
+
+USE_COMPILER=$([ $COMPILER = clang ] && echo "$OPTIONS_FOR_CLANG" || echo "$OPTIONS_FOR_GCC")
 
 # Defaults to debug build, unless BUILD_RELEASE is set
 USE_BUILD_TYPE="$([ -n "$BUILD_RELEASE" ] && echo "$OPTIONS_FOR_RELEASE" || echo "$OPTIONS_FOR_DEBUG")
@@ -35,7 +40,7 @@ USE_GUI=$([ -n "$WITH_GUI" ] && echo "$OPTIONS_FOR_GUI" || echo "$OPTIONS_FOR_NO
 USE_COVERAGE=$([ -n "$WITH_COVERAGE" ] && echo "$OPTIONS_FOR_COVERAGE" || echo)
 
 # Compile with bear when using clang
-BEAR=$([ $COMPILER_IS = clang ] && echo "bear --" || echo)
+BEAR=$([ $COMPILER = clang ] && echo "bear --" || echo)
 
 ccache --max-size 8GB
 
