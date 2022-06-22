@@ -25,8 +25,7 @@ tasks:
       gp ports await 18443 &&
       bitcoin-cli -rpcwait getnetworkinfo | jq -r .subversion &&
       . /workspace/bitpod/bitcoin-setup.sh &&
-      gp sync-done bitcoin-setup &&
-      bitcoin-cli getblockchaininfo
+      gp sync-done bitcoin-setup
 
   - name: tests
     before: |
