@@ -56,7 +56,8 @@ cd /workspace/bitcoin
             $USE_ADDITIONAL_OPTIONS \
             --disable-silent-rules
 
-make clean
+[ -n "$MAKE_CLEAN" ] && make clean
+
 $BEAR make -j$(nproc)
 
 #if [ -n "$WITH_COVERAGE" ]; then
