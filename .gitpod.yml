@@ -12,13 +12,12 @@ tasks:
       BTCEXP_BASIC_AUTH_PASSWORD: 1234
       BTCEXP_BITCOIND_URI: http://host.docker.internal:18443
       BTCEXP_BITCOIND_COOKIE: /etc/bitcoin.cookie
-    init: |
-      cd btc-rpc-explorer &&
-      rm .git &&
-      sed -i 's/node:14/node:16/g' Dockerfile &&
-      docker build -t btc-rpc-explorer .
+    #init: |
+    #  cd btc-rpc-explorer &&
+    #  rm .git &&
+    #  docker build -t btc-rpc-explorer .
     command: |
-      echo btc-rpc-explorer ready, waiting for bitcoind... &&
+      echo Waiting for bitcoind to start... &&
       gp sync-await bitcoin-setup &&
       echo Running btc-rpc-explorer on $(gp url 3002) &&
       (docker start explorer 2> /dev/null \
@@ -26,7 +25,7 @@ tasks:
           -p 3002:3002 --add-host host.docker.internal:host-gateway \
           -e BTCEXP_HOST -e BTCEXP_BITCOIND_URI -e BTCEXP_BITCOIND_COOKIE \
           -v ~/.bitcoin/regtest/.cookie:/etc/bitcoin.cookie \
-          btc-rpc-explorer) &&
+          ghcr.io/shesek/btc-rpc-explorer) &&
       exit 0 # close the terminal window
 
   - name: bitcoin core

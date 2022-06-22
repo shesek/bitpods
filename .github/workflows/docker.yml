@@ -53,3 +53,30 @@ jobs:
 
           cache-from: type=registry,ref=ghcr.io/shesek/bitpod:${{ matrix.cache_name }}
           cache-to: type=registry,ref=ghcr.io/shesek/bitpod:${{ matrix.cache_name }},mode=max
+
+  btc-rpc-explorer:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to the Github Docker registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: btc-rpc-explorer
+          tags: ghcr.io/shesek/btc-rpc-explorer:latest
+          push: true
+          cache-from: type=registry,ref=ghcr.io/shesek/btc-rpc-explorer:buildcache
+          cache-to: type=registry,ref=ghcr.io/shesek/btc-rpc-explorer:buildcache,mode=max
