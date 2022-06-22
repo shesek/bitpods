@@ -15,6 +15,7 @@ USER root
 # Starting from PYTHON add LANG-C and BREW; result should be a much lighter C++ container than Gitpod's `workspace-full`
 
 
+ARG WITH_GUI
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN [ -f /usr/share/keyrings/llvm-archive-keyring.gpg ] || ( \
@@ -34,17 +35,12 @@ clang-format \
 clang-tidy \
 clangd \
 gdb \
-keyboard-configuration \
 lcov \
 libboost-all-dev \
 libboost-dev \
 libevent-dev \
 libminiupnpc-dev \
 libnatpmp-dev \
-libqrencode-dev \
-libqt5core5a \
-libqt5dbus5 \
-libqt5gui5 \
 libsqlite3-dev \
 libtool \
 libzmq3-dev \
@@ -52,11 +48,17 @@ lld \
 llvm-15 \
 pkg-config \
 python3-zmq \
-qttools5-dev \
-qttools5-dev-tools \
-qtwayland5 \
 systemtap \
-systemtap-sdt-dev
+systemtap-sdt-dev \
+$([ -n "$WITH_GUI" ] && echo \
+  keyboard-configuration \
+  libqrencode-dev \
+  qttools5-dev \
+  qttools5-dev-tools \
+  qtwayland5 \
+  libqt5core5a \
+  libqt5dbus5 \
+  libqt5gui5)
 
 # Disable the automatic gp-vncsession startup script (it is started
 # manually in the command stage after /workspace/.pyenv is patched)
@@ -74,7 +76,7 @@ ENV PATH="/workspace/bin:/workspace/.pyenv:/workspace/.pyenv/bin:/workspace/.pye
 ENV MANPATH="${MANPATH}:/home/linuxbrew/.linuxbrew/share/man"
 ENV INFOPATH="{$INFOPATH}:/home/linuxbrew/.linuxbrew/share/info"
 ENV HOMEBREW_NO_AUTO_UPDATE=1
-ARG WITH_GUI
+# make the WITH_GUI build-arg available in the container as an env var
 ENV WITH_GUI=$WITH_GUI
 
 # Use a smaller screen resolution for VNC so that bitcoin-qt takes up more of the available space
