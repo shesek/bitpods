@@ -14,7 +14,7 @@ tasks:
       [ -n "$WITH_GUI" ] && gp-vncsession
       cd /workspace/bitcoin
       echo '🟢 starting bitcoin...'
-      bitcoind
+      bitcoind $BITCOIN_OPT
 
   - name: node rpc
     openMode: split-right

@@ -20,7 +20,7 @@ if [ -n "$WITH_GUI" ]; then
   # Update the base docker image
   sed -i 's!shesek/bitpod:latest!shesek/bitpod:gui!' .gitpod.yml
   # Run bitcoin-qt instead of bitcoind
-  sed -i -r 's!^( *)bitcoind$!\1bitcoin-qt!' .gitpod.yml
+  sed -i -r 's!^( *)bitcoind( \$BITCOIN_OPT)!\1bitcoin-qt\2!' .gitpod.yml
   # Change the block explorer port (3002) onOpen to 'notify' instead of 'open-preview'
   # This is necessary because multiple ports with 'open-preview' conflict with each other.
   # See https://discord.com/channels/816244985187008514/816246578594840586/989033704351494194
