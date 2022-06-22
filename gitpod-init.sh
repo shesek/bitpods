@@ -34,6 +34,7 @@ pyenv versions
   rm info/exclude && ln -s /workspace/bitpod/.gitignore.global info/exclude)
 
 [ -n "$NO_BUILD" ] || bitcoin-build
-[ -z "$BTCDEB" ] || btcdeb-build
+
+#[ -z "$BTCDEB" ] || btcdeb-build
 
 )

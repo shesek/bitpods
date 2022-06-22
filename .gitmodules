@@ -2,10 +2,6 @@
 	path = bitcoin
 	url = https://github.com/bitcoin/bitcoin
 	branch = master
-[submodule "btcdeb"]
-	path = btcdeb
-	url = https://github.com/bitcoin-core/btcdeb
-	branch = master
 [submodule "btc-rpc-explorer"]
 	path = btc-rpc-explorer
 	url = https://github.com/janoside/btc-rpc-explorer
