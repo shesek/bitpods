@@ -13,7 +13,7 @@ tasks:
     command: |
       [ -n "$WITH_GUI" ] && gp-vncsession
       cd /workspace/bitcoin
-      echo '🟢 starting bitcoin...'
+      echo 🟢 Starting bitcoin...
       bitcoind $BITCOIN_OPT
 
   - name: node rpc

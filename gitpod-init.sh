@@ -2,7 +2,7 @@
 
 (set -eo pipefail
 
-echo '🟢 running gitpod-init.sh'
+echo 🟢 Running gitpod-init.sh
 
 mkdir -p /workspace/{bin,datadir}
 

@@ -45,7 +45,7 @@ BEAR=$([ $COMPILER = clang ] && echo "bear --" || echo)
 ccache --max-size 8GB
 
 # Build
-echo '🟢 building bitcoin'
+echo 🟢 Building bitcoin
 cd /workspace/bitcoin
 
 ./autogen.sh
