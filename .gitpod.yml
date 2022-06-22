@@ -79,12 +79,4 @@ vscode:
   extensions:
     - eamodio.gitlens
     - editorconfig.editorconfig
-    - gera2ld.markmap-vscode
-    - gitpod.gitpod-remote-ssh
-    - ms-vscode.cpptools
-    - pdconsec.vscode-print
-    - redhat.vscode-yaml
-#   - ritwickdey.liveserver
-    - shd101wyy.markdown-preview-enhanced
-    - yzhang.markdown-all-in-one
 #   - llvm-vs-code-extensions.vscode-clangd
