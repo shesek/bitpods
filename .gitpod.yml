@@ -79,4 +79,4 @@ vscode:
   extensions:
     - eamodio.gitlens
     - editorconfig.editorconfig
-#   - llvm-vs-code-extensions.vscode-clangd
+    - llvm-vs-code-extensions.vscode-clangd
