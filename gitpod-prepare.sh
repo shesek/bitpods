@@ -14,11 +14,17 @@ set -eo pipefail
 
 [ -n "$VERBOSE" ] && set -x
 
-# Modify the .gitpod.yml base docker image to the gui variant and use 'bitcoin-qt' as the bitcoind command
+# Modify the .gitpod.yml base docker image to support QT GUI
 if [ -n "$WITH_GUI" ]; then
   echo 🟢 QT GUI mode is enabled
+  # Update the base docker image
   sed -i 's!shesek/bitpod:latest!shesek/bitpod:gui!' .gitpod.yml
+  # Run bitcoin-qt instead of bitcoind
   sed -i -r 's!^( *)bitcoind$!\1bitcoin-qt!' .gitpod.yml
+  # Change the block explorer port (3002) onOpen to 'notify' instead of 'open-preview'
+  # This is necessary because multiple ports with 'open-preview' conflict with each other.
+  # See https://discord.com/channels/816244985187008514/816246578594840586/989033704351494194
+  sed -i "/'notify' in gui mode/s/open-preview/notify/" .gitpod.yml
 fi
 
 # Use a local --reference repo to speed up the submodule update

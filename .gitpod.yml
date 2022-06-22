@@ -61,7 +61,7 @@ tasks:
 ports:
   # btc-rpc-explorer
   - port: 3002
-    onOpen: open-preview
+    onOpen: open-preview # changed to 'notify' in gui mode
   # VNC
   - port: 6080
     onOpen: open-preview
