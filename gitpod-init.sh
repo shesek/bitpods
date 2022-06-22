@@ -7,6 +7,7 @@ echo 🟢 Running gitpod-init.sh
 mkdir -p /workspace/{bin,datadir}
 
 ln -s /workspace/bitpod/bitcoin.conf /workspace/datadir/
+touch /workspace/bitcoin-wallet-autoload.conf
 
 # Symlink git submodules to be available directly under /workspace
 ln -s /workspace/bitpod/{bitcoin,btcdeb,btc-rpc-explorer} /workspace
