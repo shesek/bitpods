@@ -15,6 +15,7 @@
         "C_Cpp.loggingLevel": "Information",
         "C_Cpp.vcFormat.indent.namespaceContents": false,
         "gitlens.showWelcomeOnInstall": false,
+        "redhat.telemetry.enabled": false,
         "files.associations": {
             "cctype": "cpp",
             "clocale": "cpp",
