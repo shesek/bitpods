@@ -58,12 +58,22 @@ tasks:
       exit 0 # close the terminal window
 
 ports:
-  # btc-rpc-explorer
+  - port: 18443
+    name: bitcoin rpc
+    description: Bitcoin Core JSONRPC server
+    onOpen: ignore
+
   - port: 3002
+    name: block explorer
+    description: A btc-rpc-explorer instance connected to the local regtest bitcoind.
     onOpen: open-preview # changed to 'notify' in gui mode
-  # VNC
+
   - port: 6080
+    name: bitcoin-qt
+    description: VNC client for accessing the bitcoin-qt GUI
     onOpen: open-preview
+
+  # internal port for VNC, not accessed directly
   - port: 5900
     onOpen: ignore
 
