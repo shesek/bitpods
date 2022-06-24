@@ -1,7 +1,7 @@
 [submodule "bitcoin"]
 	path = bitcoin
-	url = https://github.com/bitcoin/bitcoin
-	branch = master
+	url = https://github.com/ryanofsky/gui.git
+	branch = pr/qtsopt
 [submodule "btc-rpc-explorer"]
 	path = btc-rpc-explorer
 	url = https://github.com/janoside/btc-rpc-explorer
