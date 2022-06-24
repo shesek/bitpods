@@ -1,7 +1,7 @@
 [submodule "bitcoin"]
 	path = bitcoin
-	url = https://github.com/bitcoin/bitcoin
-	branch = master
+	url = https://github.com/fanquake/bitcoin.git
+	branch = tidy_using_directives
 [submodule "btc-rpc-explorer"]
 	path = btc-rpc-explorer
 	url = https://github.com/janoside/btc-rpc-explorer
