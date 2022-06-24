@@ -27,18 +27,43 @@ if [ -n "$WITH_GUI" ]; then
   sed -i "/'notify' in gui mode/s/open-preview/notify/" .gitpod.yml
 fi
 
-# Use a local --reference repo to speed up the submodule update
-localref() {
-  [ -n "$PODS_BASEGIT" ] && echo "--reference $PODS_BASEGIT/$1"
-}
+
 
 # Update the bitcoin and btcpdeb submodules
 
-echo 🟢 Updating bitcoin git submodule
+echo 🟢 Checking for bitcoin git submodule updates
 
 git submodule set-url bitcoin "$BITCOIN_REPO_URL"
 git submodule set-branch --branch "$BITCOIN_REPO_BRANCH" bitcoin
-git submodule update --init --remote --force $(localref bitcoin) bitcoin
+
+# If the commit hash for the branch is known, we can update straight to it without
+# fetching the remote by applying a `git diff` with the submodule commit hash.
+if [ -n "$BITCOIN_REPO_COMMIT" ]; then
+  current_commit=$(git submodule status bitcoin | sed 's/^[-+ ]//' | cut -d' ' -f1)
+
+  if [ "$current_commit" != "$BITCOIN_REPO_COMMIT" ]; then
+    echo "Updating submodule from commit ${current_commit:0:7} to ${BITCOIN_REPO_COMMIT:0:7}"
+
+    echo "
+--- a/bitcoin
++++ b/bitcoin
+@@ -1 +1 @@
+-Subproject commit $current_commit
++Subproject commit $BITCOIN_REPO_COMMIT
+" \
+    | git apply --index
+  fi
+
+# Otherwise, update by fetching the branch from the remote
+else
+
+  # Use a local --reference repo to speed things up
+  localref() {
+    [ -n "$PODS_BASEGIT" ] && echo "--reference $PODS_BASEGIT/$1"
+  }
+
+  git submodule update --init --remote --force $(localref bitcoin) bitcoin
+fi
 
 #git submodule set-url btcdeb "$BTCDEB_REPO_URL"
 #git submodule set-branch --branch "$BTCDEB_REPO_BRANCH" btcdeb
