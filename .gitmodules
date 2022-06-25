@@ -1,7 +1,7 @@
 [submodule "bitcoin"]
 	path = bitcoin
-	url = https://github.com/bitcoin/bitcoin
-	branch = master
+	url = https://github.com/mzumsande/bitcoin.git
+	branch = 202206_gettxoutsetinfo_check
 [submodule "btc-rpc-explorer"]
 	path = btc-rpc-explorer
 	url = https://github.com/janoside/btc-rpc-explorer
