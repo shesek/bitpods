@@ -37,23 +37,17 @@ git submodule set-url bitcoin "$BITCOIN_REPO_URL"
 git submodule set-branch --branch "$BITCOIN_REPO_BRANCH" bitcoin
 
 # If the commit hash for the branch is known, we can update straight to it without
-# fetching the remote by applying a git diff with the submodule commit hash.
+# fetching the remote using `git update-index`. https://stackoverflow.com/q/22764951
 if [ -n "$BITCOIN_REPO_COMMIT" ]; then
   current_commit=$(git submodule status bitcoin | sed 's/^[-+ ]//' | cut -d' ' -f1)
 
   if [ "$current_commit" != "$BITCOIN_REPO_COMMIT" ]; then
-    echo "Updating bitcoin submodule to commit hash $BITCOIN_REPO_COMMIT"
+    echo "Updating bitcoin submodule to commit $BITCOIN_REPO_COMMIT"
 
-    rm -rf bitcoin # the submodule must not be checked out for this work
+    # the submodule must not be checked out for update-index to work
+    git submodule deinit bitcoin &> /dev/null || true
 
-    echo "
---- a/bitcoin
-+++ b/bitcoin
-@@ -1 +1 @@
--Subproject commit $current_commit
-+Subproject commit $BITCOIN_REPO_COMMIT
-" \
-    | git apply --index
+    git update-index --cacheinfo "160000,$BITCOIN_REPO_COMMIT,bitcoin"
   fi
 
 # Otherwise, update by fetching the branch from the remote
