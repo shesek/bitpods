@@ -1,4 +1,4 @@
-image: ghcr.io/shesek/bitpod:latest
+image: ghcr.io/shesek/bitpod:gui
 # To use the local Dockerfile:
 #   file: .gitpod.Dockerfile
 
@@ -14,7 +14,7 @@ tasks:
       [ -n "$WITH_GUI" ] && gp-vncsession
       cd /workspace/bitcoin
       echo 🟢 Starting bitcoin...
-      bitcoind $BITCOIN_OPT
+      bitcoin-qt $BITCOIN_OPT
 
   - name: node rpc
     openMode: split-right
@@ -66,7 +66,7 @@ ports:
   - port: 3002
     name: block explorer
     description: A btc-rpc-explorer instance connected to the local regtest bitcoind.
-    onOpen: open-preview # changed to 'notify' in gui mode
+    onOpen: notify # changed to 'notify' in gui mode
 
   - port: 6080
     name: bitcoin-qt
