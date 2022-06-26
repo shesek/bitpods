@@ -1,7 +1,7 @@
 [submodule "bitcoin"]
 	path = bitcoin
-	url = https://github.com/bitcoin/bitcoin.git
-	branch = master
+	url = https://github.com/MarcoFalke/bitcoin-core.git
+	branch = 2206-rpc-policy-🥙
 [submodule "btc-rpc-explorer"]
 	path = btc-rpc-explorer
 	url = https://github.com/janoside/btc-rpc-explorer.git
