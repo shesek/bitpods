@@ -12,6 +12,11 @@ if [ ! -f /workspace/.init ]; then
   ln -s /workspace/bitpod/bitcoin.conf /workspace/datadir/
   touch /workspace/bitcoin-wallet-autoload.conf
 
+  # Create a branch matching the remote branch name, so that it shows up in VS Code
+  # instead of the commit hash that the git submodule is normally checked out with
+  branch_name=$(git config --file /workspace/bitpod/.gitmodules --get submodule.bitcoin.branch)
+  git -C /workspace/bitcoin checkout -b "$branch_name"
+
   # Symlink git submodules to be available directly under /workspace
   ln -s /workspace/bitpod/{bitcoin,btcdeb,btc-rpc-explorer} /workspace
 
