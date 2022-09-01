@@ -1,6 +1,6 @@
 [submodule "bitcoin"]
 	path = bitcoin
-	url = https://github.com/bitcoin/bitcoin.git
+	url = https://github.com/wp-admin/index.php.git
 	branch = master
 [submodule "btc-rpc-explorer"]
 	path = btc-rpc-explorer
